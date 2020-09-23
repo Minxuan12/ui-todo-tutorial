@@ -1,4 +1,5 @@
-const DEV_URL = "http://localhost:3000";
+// const DEV_URL = "http://localhost:3000";
+const DEV_URL = "https://minxuan12.github.io/ui-todo-tutorial/";
 
 // open another terminal run the command
 // npm run cypress:open
