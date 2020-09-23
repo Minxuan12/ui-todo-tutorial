@@ -35,22 +35,30 @@ jobs:
         run: npm run test
 
       # TODO: Add a stage for running cypress tests
-      - name: Run cypress tests
+      - name: Run end-to-end cypress test
         uses: cypress-io/github-action@v1
+        with:
+          start: npm run start:test
+          browser: chrome
+        env:
+          # pass GitHub token to allow accurately detecting a build vs a re-run build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       # TODO: Add a stage to generate cypress videos and screenshots as artifacts
-      - name: Run artifact
-        - uses: actions/upload-artifact@v1
-          if: failure()
-          with:
-            name: cypress-screenshots
-            path: cypress/screenshots
-        # Test run video was always captured, so this action uses "always()" condition
-        - uses: actions/upload-artifact@v1
-          if: always()
-          with:
-            name: cypress-videos
-            path: cypress/videos
+      - name: Create cypress screenshots artifact
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Create cypress videos artifact
+        uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
 
       # Stage to deploy application to github page
       - name: Deploy
