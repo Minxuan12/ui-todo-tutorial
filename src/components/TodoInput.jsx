@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { addTodo } from "../context/todo.actions";
 import { TodoContext } from "../context/TodoContextProvider";
+import { firebaseApi } from "../services/firebaseApi"
 
 export const TodoInput = () => {
   const [inputValue, setInputValue] = useState("");
@@ -12,6 +13,7 @@ export const TodoInput = () => {
     const id = uuidv4();
 
     dispatch(addTodo(id, inputValue));
+    firebaseApi.addTodo(id, inputValue);
     setInputValue("");
   }
 
